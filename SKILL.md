@@ -121,7 +121,24 @@ REST fallback covers everything in step 1 and reads; for steps 3–5 on REST-onl
 skill instructs the agent to mirror the console SPA's own network calls (see §1 probing
 recipe) — MCP remains the supported path for those writes; prefer the MCP.
 
-## 3e. Clean the build (MANDATORY — 0 in-game hits)
+## 3e. Neutralize sitelocks & external analytics (MANDATORY)
+
+Portal games frequently ship sitelocks and telemetry that break on a new host.
+Before packaging, the AI must:
+
+- **Sitelocks / domain checks**: grep the whole build for `location.host`,
+  `location.hostname`, `document.domain` and whitelist arrays; neutralize them
+  (patch bytes with identical-length replacements, or short-circuit from the
+  driver). A game that refuses to run on the target domain is a FAILED build.
+- **External analytics / telemetry**: remove or redirect Sentry, Google
+  Analytics, DDNA, Google Fonts, A/B test fetches and any third-party
+  `<script>`/`<link>`. Only local files and the Playgama Bridge may remain.
+  Verify with a firewall test that zero non-localhost requests are made.
+- **Service worker**: block or remove the SW registration so capture and
+  Playwright see the real files (`serviceWorkers: 'block'`).
+- **Check**: `grep -rniE "location\.host|sentry|google-analytics|googletagmanager|fonts\.googleapis" <build>` must return 0 hits (aside from the Bridge you intentionally integrate).
+
+## 3f. Clean the build (MANDATORY — 0 in-game hits)
 
 The build shipped to Playgama must be **fully cleaned of its origin**: neither
 the source platform name (whatever it is: Poki, Softgames, Construct, Phaser,
