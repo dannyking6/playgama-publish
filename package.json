@@ -3,11 +3,19 @@
   "version": "1.0.0",
   "description": "AI-agent skill: Playgama Bridge SDK integration + real gameplay covers + full developer-console publishing via MCP/REST",
   "scripts": {
-    "test": "node --check scripts/capture_assets.js && node --check scripts/bridges/poki_bridge.js && node --check scripts/bridges/snacks_bridge.js && python3 -m py_compile scripts/playgama_release.py scripts/integrate_bridge.py scripts/capture_postprocess.py && echo ALL SYNTAX OK"
+    "test": "node --check scripts/capture_assets.js && node --check scripts/bridges/poki_bridge.js && node --check scripts/bridges/snacks_bridge.js && node --check scripts/verify_clean.js && python3 -m py_compile scripts/playgama_release.py scripts/integrate_bridge.py scripts/capture_postprocess.py && echo ALL SYNTAX OK",
+    "verify-clean": "node scripts/verify_clean.js"
   },
   "dependencies": {
     "playwright": "^1.45.0"
   },
-  "keywords": ["playgama", "bridge-sdk", "html5", "publish", "agent-skill", "mcp"],
+  "keywords": [
+    "playgama",
+    "bridge-sdk",
+    "html5",
+    "publish",
+    "agent-skill",
+    "mcp"
+  ],
   "license": "MIT"
 }

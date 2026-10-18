@@ -81,6 +81,7 @@ Validated REST endpoints (tested live Oct 2026 — see `references/api-map.md`):
 - `scripts/capture_postprocess.py` — picks the richest frame, full-bleed crops to the exact platform sizes, corner probe, ≤10 MB, writes `ASSETS_SOURCE=assets_gameplay_capture`
 - `scripts/bridges/poki_bridge.js` — PokiSDK games get REAL Playgama ads (interstitial/rewarded on the actual `rewarded` state) + audio-safe shim
 - `scripts/bridges/snacks_bridge.js` — GameSnacks contract (beforeAd→beforeReward→showAdFn→adViewed→afterAd→adBreakDone) mapped onto Bridge rewarded + same audio-safe shim
+- `scripts/verify_clean.js` — verifies a build is fully cleaned of its origin: no source platform name (Poki, Softgames, Construct, Phaser, PixiJS, Unity, Godot, Famobi, …) and no original game name may appear in any shipped file (contents or file names). Exits 0 only on a clean build; run before submit (`npm run verify-clean -- <build-dir> <platform> <original-name>`).
 
 ## What the gates enforce (why your game won't bounce in QA)
 

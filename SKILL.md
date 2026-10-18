@@ -121,6 +121,29 @@ REST fallback covers everything in step 1 and reads; for steps 3–5 on REST-onl
 skill instructs the agent to mirror the console SPA's own network calls (see §1 probing
 recipe) — MCP remains the supported path for those writes; prefer the MCP.
 
+## 3e. Clean the build (MANDATORY — 0 in-game hits)
+
+The build shipped to Playgama must be **fully cleaned of its origin**: neither
+the source platform name (whatever it is: Poki, Softgames, Construct, Phaser,
+PixiJS, Unity, Godot, Famobi, GameSnacks, …) nor the original game name may
+appear anywhere inside the shipped build — code, assets, atlases, manifests,
+metadata, strings, URLs, file names. A partial clean is a FAILED build.
+
+- The repo/folder name is an **internal label** only and is not the game
+  title; it does not prove cleanliness — scrub the build regardless.
+- The original game name is **not** the repo name or the Pages URL for this
+  workflow: the build simply carries **no name at all** inside it; the title
+  is chosen fresh at publish time (2–4 words, matching the in-game title if
+  any) and lives only in the Playgama dashboard and covers.
+- Verify before declaring ready with the provided test:
+  `node scripts/verify_clean.js <build-dir> <platform-name> <original-game-name>`
+  (add any extra terms as further args). It exits 0 only when every term has
+  0 hits in both file contents and file names; otherwise it prints the
+  offending files/lines and exits 1. Run it in CI/pre-submit; a non-zero exit
+  blocks submission.
+- The npm script `npm run verify-clean -- <build-dir> <platform> <original-name>`
+  wraps the same check.
+
 ## 4. Definition of "form ready to submit" (verify all before telling the user)
 
 - [ ] Archive: `PASSED`, `bridgeSdk: FOUND`, bridge ≥ 2.2.0
